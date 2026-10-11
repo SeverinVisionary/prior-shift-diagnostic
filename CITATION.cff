@@ -7,5 +7,15 @@ authors:
     given-names: Hanyu
     orcid: "https://orcid.org/0009-0005-0419-4070"
 version: "1.0.0"
+doi: 10.5281/zenodo.23304208
+date-released: 2026-10-11
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23304208
+    description: "This version (1.0.0)"
+  - type: doi
+    value: 10.5281/zenodo.23304207
+    description: "All versions"
+repository-code: "https://github.com/SeverinVisionary/prior-shift-diagnostic"
 license: CC-BY-4.0
 keywords: [catastrophic forgetting, post-training, calibration, temperature scaling, label shift, language models]

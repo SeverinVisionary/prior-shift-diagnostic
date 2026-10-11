@@ -13,6 +13,8 @@ size_categories:
 
 # Prior-shift diagnostic
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23304208.svg)](https://doi.org/10.5281/zenodo.23304208)
+
 When a derived language model (instruction-tuned, preference-tuned, or continued-pretrained) gets
 worse on text its base model was trained on, how much of the loss increase can a context-free
 correction of its logits, a token bias and/or a temperature, take back?
@@ -194,7 +196,8 @@ GPU floating-point nondeterminism.
 
 ## Citation and licence
 
-See `CITATION.cff`. **Everything, data included, is CC BY 4.0** (`LICENSE-DOCS`). The code
+Archived on Zenodo: [10.5281/zenodo.23304208](https://doi.org/10.5281/zenodo.23304208) (this
+version; all versions: 10.5281/zenodo.23304207). See `CITATION.cff`. **Everything, data included, is CC BY 4.0** (`LICENSE-DOCS`). The code
 (`code/`, `reproduce.sh`, `verify_data.py`, `test_verify_data.py`) is additionally offered under MIT
 (`LICENSE`); GitHub's sidebar shows only the latter.
 
