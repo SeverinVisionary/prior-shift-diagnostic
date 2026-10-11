@@ -19,7 +19,7 @@ For a base model and one or more derived models sharing its tokenizer:
   4. Score E for both models under each correction and report
        Delta  = CE_new - CE_old
        S_card = (CE_new - CE_new^x) / Delta              (share recovered on the new model)
-       S_sym  = 1 - (CE_new^x - CE_old^x) / Delta       (base given the same correction)
+       S_sym  = 1 - (CE_new^x - CE_old^x) / Delta       (base given its own fit of the same kind of correction)
      with document-bootstrap 95% intervals, and the in-sample Jensen bound
      R_cf(E) >= KL(q_E || pbar_E) on E as a correctness check.
 

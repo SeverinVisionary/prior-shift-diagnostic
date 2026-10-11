@@ -50,8 +50,9 @@ predictive distribution over FIT positions, c the FIT target counts, and N their
   scaling with unit step. Its fixed point matches the model's mean prediction to t (minimum
   discrimination information adaptation, Kneser et al. 1997). The iterate with the lowest held-out
   FIT cross-entropy is kept: at most 20 iterations, stopping after 3 without improvement, and b = 0
-  if no step helps. Some top-4K fits reached the 20-iteration cap while still improving, by less
-  than 5·10⁻⁵ nats per step, so they are truncated rather than early-stopped. The fitted bias
+  if no step helps. Some top-4K fits reached the 20-iteration cap while still improving (bias-only:
+  0.5–4·10⁻⁵ nats per step; affine at the selected T: up to 9·10⁻⁵), so they are truncated rather
+  than early-stopped. The affine inner traces are only in the run logs. The fitted bias
   vectors are not saved.
 - **aff**: temperature plus bias, softmax(z/T + b). log T is found by golden-section search on
   [log 0.25, log 4] with 14 evaluations; at each T the bias is refitted as above, and the T with the

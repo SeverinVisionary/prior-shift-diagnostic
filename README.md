@@ -35,17 +35,22 @@ seen is unknown for every model.
   closed-form bias fitted on the scoring text itself gives at most 0.158, on the same pair. That
   in-sample figure is not an upper bound: an optimally fitted bias can recover more than one step
   does. So the result is that these fitted bias corrections stay below 0.20 on all 14 pairs, not that
-  no bias could do better.
-- **Adding a temperature recovers more, most of all after preference tuning.** Most derived models
-  are overconfident on this text: the fitted T is up to 1.22, against 1.00–1.01 for their bases.
-  Qwen2.5-Coder-1.5B, at T = 1.004, sits slightly below its base. The bias-plus-temperature share
-  S_sym^aff grows with preference tuning. OLMo-2-1B is at 0.06 after SFT and 0.16 after DPO, and
+  no bias could do better. On the headline pair the top-4K fit hit its 20-iteration cap while
+  still improving by about 2·10⁻⁵ nats per step; extrapolating to convergence would add roughly
+  0.004, so the procedure gives about 0.10 there.
+- **Adding a temperature recovers more, most of all in the OLMo-2 preference-tuned models.** Most
+  derived models are overconfident on this text: the fitted T is up to 1.22, against 1.00–1.01 for
+  their bases (for Qwen2.5-Coder-1.5B the difference is within the search resolution). Within
+  OLMo-2, the bias-plus-temperature share S_sym^aff rises from SFT to DPO: OLMo-2-1B is at 0.06
+  after SFT and 0.16 after DPO, and
   OLMo-2-7B-Instruct reaches 0.26 (0.36 with the top-4K bias), where the top-4K bias alone gives
   0.04. The gap between the two fits is an incremental contrast between fitting procedures, not a
-  decomposition: no temperature-only correction is fitted.
+  decomposition: no temperature-only correction is fitted. This is two within-family contrasts
+  with one recipe. Other instruction-tuned models are far lower (SmolLM2-1.7B-Instruct 0.021,
+  Qwen2.5-1.5B-Instruct 0.018), so it is not a general property of preference tuning.
 - **Continued pretraining on math forgets a lot and recovers almost nothing.** Qwen2.5-Math loses
-  0.49 (7B) and 0.80 (1.5B) nats/token. Every out-of-sample correction recovers ≤ 0.03 of it, and
-  the in-sample one-step closed form ≤ 0.054. The Coder models lose less (0.13), with similarly
+  0.49 (7B) and 0.80 (1.5B) nats/token. Every out-of-sample correction recovers ≤ 0.031 of it, and
+  the in-sample one-step closed form ≤ 0.055. The Coder models lose less (0.13), with similarly
   near-zero shares.
 
 The full table is `data/summary.md`, with 95% document-bootstrap intervals in `data/summary.json`.
@@ -138,12 +143,13 @@ summary table. It exits non-zero on any failure.
 
 It does not recompute the confidence intervals, the fitted temperatures, the in-sample figures or
 the fit traces; those need the models. Nor does it tie `data/` to the code, which needs the GPU
-re-run below. `code/` is the code that produced `data/`; only docstrings and comments differ.
+re-run below. `code/` is the code that produced `data/`; only docstrings, comments and the test's
+import name differ.
 
 ## Re-running the models
 
-On a GPU (all pairs ran on one A100-80GB; Colab's resource monitor showed ≈ 21 GB GPU and ≈ 26 GB
-host memory on the 7B pairs):
+On a GPU (all pairs ran on one A100-80GB; Colab's resource monitor, read by hand and not
+recorded, showed ≈ 21 GB GPU and ≈ 26 GB host memory on the 7B pairs):
 
     python code/prior_shift.py --base Qwen/Qwen2.5-7B --base_rev d149729398750b98c0af14eb82c78cfe92750796 \
         --new Qwen/Qwen2.5-7B-Instruct --new_rev a09a35458c702b33eeacc393d103063234e8bc28 --out out/g3
@@ -162,7 +168,11 @@ GPU floating-point nondeterminism.
   forgetting.
 - **No bound on bias recoverability.** The shares are those of the fitted procedures (smoothing,
   early stopping, top-4,096 support). The in-sample one-step figure is not a ceiling. A
-  differently fitted bias might recover more.
+  differently fitted bias might recover more. K = 4,096, the IPF step (undamped, no line search)
+  and the early-stopping split were not varied. That every base fit stays at b = 0 is a property of
+  this procedure, not of the models. The symmetric in-sample share (0.158 at most) differs from the
+  per-model in-sample share S_card, which is large (e.g. 0.78 on Qwen2.5-7B-Instruct), because
+  the base gains in sample too.
 - **Excluded tokens are not measured.** Special and added tokens (EOS, chat-template tokens) are
   removed from the softmax, so all losses are conditional on the regular vocabulary. A prior shift
   onto excluded tokens, e.g. more EOS mass, would raise a model's full-vocabulary loss and be
@@ -184,5 +194,10 @@ GPU floating-point nondeterminism.
 
 ## Citation and licence
 
-See `CITATION.cff`. Everything is CC BY 4.0 (`LICENSE-DOCS`); the code (`code/`, `reproduce.sh`,
-`verify_data.py`) is additionally offered under MIT (`LICENSE`).
+See `CITATION.cff`. **Everything, data included, is CC BY 4.0** (`LICENSE-DOCS`). The code
+(`code/`, `reproduce.sh`, `verify_data.py`, `test_verify_data.py`) is additionally offered under MIT
+(`LICENSE`); GitHub's sidebar shows only the latter.
+
+Source data: documents from one DCLM shard of `allenai/olmo-mix-1124` (ODC-BY; its DCLM-Baseline
+part is CC BY 4.0). No corpus text is redistributed here, only document indices, SHA-256 hashes,
+token counts and per-document loss sums.

@@ -6,5 +6,5 @@
  "license": "cc-by-4.0",
  "keywords": ["catastrophic forgetting", "post-training", "calibration", "temperature scaling", "label shift", "language models"],
  "version": "1.0.0",
- "notes": "All files are CC BY 4.0 (LICENSE-DOCS). The code (code/*.py, reproduce.sh, verify_data.py) is additionally offered under the MIT License (LICENSE)."
+ "notes": "All files are CC BY 4.0 (LICENSE-DOCS). The code (code/*.py, reproduce.sh, verify_data.py, test_verify_data.py) is additionally offered under the MIT License (LICENSE)."
 }
