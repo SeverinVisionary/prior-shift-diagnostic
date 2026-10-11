@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this diagnostic or its data, please cite it as below."
+title: "Prior-shift diagnostic: how much of language-model forgetting is a context-free logit correction?"
+type: dataset
+authors:
+  - family-names: Yang
+    given-names: Hanyu
+    orcid: "https://orcid.org/0009-0005-0419-4070"
+version: "1.0.0"
+license: CC-BY-4.0
+keywords: [catastrophic forgetting, post-training, calibration, temperature scaling, label shift, language models]
