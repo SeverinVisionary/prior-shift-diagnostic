@@ -36,8 +36,8 @@ seen is unknown for every model.
   in-sample figure is not an upper bound: an optimally fitted bias can recover more than one step
   does. So the result is that these fitted bias corrections stay below 0.20 on all 14 pairs, not that
   no bias could do better. On the headline pair the top-4K fit hit its 20-iteration cap while
-  still improving by about 2·10⁻⁵ nats per step; extrapolating to convergence would add roughly
-  0.004, so the procedure gives about 0.10 there.
+  its held-out FIT-slice loss was still falling by about 2·10⁻⁵ nats per step. The measured EVAL
+  share is 0.098; what further iterations would do on EVAL was not measured.
 - **Adding a temperature recovers more, most of all in the OLMo-2 preference-tuned models.** Most
   derived models are overconfident on this text: the fitted T is up to 1.22, against 1.00–1.01 for
   their bases (for Qwen2.5-Coder-1.5B the difference is within the search resolution). Within
